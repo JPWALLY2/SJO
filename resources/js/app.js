@@ -7,11 +7,10 @@ import FormularioUsuarios from './components/admin/usuarios/FormularioUsuarios.v
 
 // ROTAS
 const router = createRouter({
-    // history: createWebHistory('/admin'),
     history: createWebHistory(),
     routes: [
+        // { path: '/', name: 'Home', component: App },
         { path: '/usuarios/cadastrar', component: FormularioUsuarios },
-        { path: '/usuarios/:id/editar', component: FormularioUsuarios },
     ]
 });
 

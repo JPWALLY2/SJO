@@ -19,7 +19,7 @@ use App\Http\Controllers\UsuarioController;
 //     return $request->user();
 // });
 
-Route::get('usuarios/cadastrar', [UsuarioController::class, 'store']);
+Route::POST('usuarios/cadastrar', [UsuarioController::class, 'store']);
 
 // rotas admin
 // Route::group(['prefix' => 'admin'], function () {

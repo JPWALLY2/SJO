@@ -66,7 +66,8 @@ export default {
       try {
 
           if (this.novoUsuario) {
-            await axios.post("/usuarios/cadastrar", this.form);
+            // arquivo api.php 
+            await axios.post("/api/usuarios/cadastrar", this.form);
           } else {
             await axios.put(`/usuarios/${this.$route.params.id}`, this.form);
           }
