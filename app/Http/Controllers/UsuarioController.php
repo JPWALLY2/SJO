@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class UsuarioController extends Controller
 {
@@ -13,16 +14,17 @@ class UsuarioController extends Controller
         print_r($request->input());
 
         $dados = [
-            'nome' => $request->input('nome'),
+            'nome'  => $request->input('nome'),
             'email' => $request->input('email'),
-            'senha' => $request->input('senha')
+            'senha' => Hash::make($request->input('senha'))
         ];
 
-        User::created($dados);
-        $salvo = User::create($request->all());
+        $salvo = User::create($dados);
+        // $salvo = User::create($request->all());
 
         if ($salvo) {
-            return response()->json(['tipo' => 'sucesso', 'msg' => 'Cadastro realizado com sucesso!']);
+            return response()->json($request->input());
+            // return response()->json(['tipo' => 'sucesso', 'msg' => 'Cadastro realizado com sucesso!']);
         } else {
             return response()->json(['tipo' => 'erro', 'msg' => 'Erro ao cadastrar o usuário!']);
         }

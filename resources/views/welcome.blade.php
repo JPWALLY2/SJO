@@ -12,6 +12,7 @@
 
     <!-- MEU CSS -->
     @vite(['resources/css/styles.css'])
+    <!-- @vite(['resources/sass/app.scss']) -->
 </head>
 
 <body>

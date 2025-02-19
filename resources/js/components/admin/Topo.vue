@@ -1,14 +1,14 @@
 <template>
   <header>
     <nav id="topo" class="col-12">
-      <div class="area-brand">
+      <router-link to="/" class="area-brand">
         <div class="area-logo">
           <img src="../../../img/logo.png" alt="Logo JEPAP" class="" />
         </div>
         <div class="area-titulo some-mobile">
           <h1>ADMIN</h1>
         </div>
-      </div>
+      </router-link>
 
       <div class="top-nav">
         <input
@@ -39,7 +39,7 @@
           <ul>
             <li>
               <router-link to="/usuarios/cadastrar">
-                <a >Cadastrar</a>
+                <a>Cadastrar</a>
               </router-link>
             </li>
             <li>
