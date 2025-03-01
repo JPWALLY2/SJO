@@ -571,6 +571,7 @@ span.erros {
     flex-direction: column;
     margin-bottom: 20px;
     float: left;
+    padding: 0 10px;
 }
 
 #cadastrar .linha label {
@@ -587,9 +588,6 @@ span.erros {
     width: 100%;
 }
 
-#cadastrar .linha .coluna input {
-    width: 95%;
-}
 
 #cadastrar .linha input::placeholder {
     padding-left: 10px;
@@ -614,6 +612,15 @@ span.erros {
 @media screen and (max-width: 425px) {
     #cadastrar button {
         width: 100%;
+    }
+    #cadastrar .linha{
+        display: flex;
+        flex-direction: column;
+    }
+
+    #cadastrar .linha .coluna{
+        width: 100%;
+        padding: 0;
     }
 }
 

@@ -1,33 +1,45 @@
 <template>
   <div id="cadastrar" class="container50 container-m-90">
     <div class="titulo">
-      <h1 v-if="novoUsuario">Cadastrar Usuarios</h1>
+      <h1 v-if="novoUsuario">Cadastrar Usuários</h1>
     </div>
 
     <form @submit.prevent="cadastrar">
       <div class="linha">
         <label for="nome">Nome</label>
-        <input type="text" id="nome" v-model="form.nome" />
+        <Field name="nome" v-slot="{ field, errorMessage }" rules="required">
+          <input type="text" id="nome" v-bind="field" />
+          <span v-if="errorMessage" class="erro">{{ errorMessage }}</span>
+        </Field>
       </div>
 
       <div class="linha">
         <label for="email">Email</label>
-        <input type="text" id="email" v-model="form.email" />
+        <Field name="email" v-slot="{ field, errorMessage }" rules="required|email">
+          <input type="text" id="email" v-bind="field" />
+          <span v-if="errorMessage" class="erro">{{ errorMessage }}</span>
+        </Field>
       </div>
 
       <div class="linha">
         <div class="coluna">
           <label for="senha">Senha</label>
-          <input type="password" id="senha" v-model="form.senha" />
+          <Field name="senha" v-slot="{ field, errorMessage }" rules="required|min:6">
+            <input type="password" id="senha" v-bind="field" />
+            <span v-if="errorMessage" class="erro">{{ errorMessage }}</span>
+          </Field>
         </div>
-        
+
         <div class="coluna">
           <label for="confirmar_senha">Confirmar Senha</label>
-          <input
-            type="password"
-            id="confirmar_senha"
-            v-model="form.confirmarSenha"
-          />
+          <Field
+            name="confirmarSenha"
+            v-slot="{ field, errorMessage }"
+            :rules="`required|confirmed:${form.senha}`"
+          >
+            <input type="password" id="confirmar_senha" v-bind="field" />
+            <span v-if="errorMessage" class="erro">{{ errorMessage }}</span>
+          </Field>
         </div>
       </div>
 
@@ -35,48 +47,49 @@
     </form>
   </div>
 </template>
-  
-  <script>
+
+<script>
+import { useForm, Field } from "vee-validate";
+import * as yup from "yup";
 import axios from "axios";
 
 export default {
-  data() {
-    return {
-      form: {
-        nome: "",
-        senha: "",
-        email: "",
-        confirmarSenha: "",
-      },
-    };
-  },
-  computed: {
-    novoUsuario() {
-      return !this.$route.path.includes("editar");
-    },
-  },
-  async created() {
-    if (!this.novoUsuario) {
-      const response = await axios.get(`usuarios/${this.$route.params.id}`);
-      this.form = response.data;
-    }
-  },
-  methods: {
-    async cadastrar() {
+  components: { Field },
+
+  setup() {
+    const { handleSubmit, defineField } = useForm({
+      validationSchema: yup.object({
+        nome: yup.string().required("O nome é obrigatório"),
+        email: yup.string().email("Digite um email válido").required("O email é obrigatório"),
+        senha: yup.string().min(6, "A senha deve ter no mínimo 6 caracteres").required("A senha é obrigatória"),
+        confirmarSenha: yup
+          .string()
+          .oneOf([yup.ref("senha")], "As senhas não coincidem")
+          .required("Confirme sua senha"),
+      }),
+    });
+
+    const [nome] = defineField("nome");
+    const [email] = defineField("email");
+    const [senha] = defineField("senha");
+    const [confirmarSenha] = defineField("confirmarSenha");
+
+    const cadastrar = handleSubmit(async (values) => {
       try {
-        if (this.novoUsuario) {
-          // arquivo api.php
-          await axios.post("/api/usuarios/cadastrar", this.form);
-        } else {
-          await axios.put(
-            `/api/usuarios/editar/${this.$route.params.id}`,
-            this.form
-          );
-        }
+        await axios.post("/api/usuarios/cadastrar", values);
       } catch (error) {
         console.error(error);
       }
-    },
+    });
+
+    return { form: { nome, email, senha, confirmarSenha }, cadastrar };
   },
 };
 </script>
+
+<style>
+.erro {
+  color: red;
+  font-size: 12px;
+}
+</style>
