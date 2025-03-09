@@ -15,7 +15,11 @@
 
       <div class="linha">
         <label for="email">Email</label>
-        <Field name="email" v-slot="{ field, errorMessage }" rules="required|email">
+        <Field
+          name="email"
+          v-slot="{ field, errorMessage }"
+          rules="verificarEmail"
+        >
           <input type="text" id="email" v-bind="field" />
           <span v-if="errorMessage" class="erro">{{ errorMessage }}</span>
         </Field>
@@ -24,7 +28,11 @@
       <div class="linha">
         <div class="coluna">
           <label for="senha">Senha</label>
-          <Field name="senha" v-slot="{ field, errorMessage }" rules="required|min:6">
+          <Field
+            name="senha"
+            v-slot="{ field, errorMessage }"
+            rules="required|min:6"
+          >
             <input type="password" id="senha" v-bind="field" />
             <span v-if="errorMessage" class="erro">{{ errorMessage }}</span>
           </Field>
@@ -47,7 +55,6 @@
     </form>
   </div>
 </template>
-
 <script>
 import { useForm, Field } from "vee-validate";
 import * as yup from "yup";
@@ -57,17 +64,40 @@ export default {
   components: { Field },
 
   setup() {
-    const { handleSubmit, defineField } = useForm({
-      validationSchema: yup.object({
-        nome: yup.string().required("O nome é obrigatório"),
-        email: yup.string().email("Digite um email válido").required("O email é obrigatório"),
-        senha: yup.string().min(6, "A senha deve ter no mínimo 6 caracteres").required("A senha é obrigatória"),
-        confirmarSenha: yup
-          .string()
-          .oneOf([yup.ref("senha")], "As senhas não coincidem")
-          .required("Confirme sua senha"),
-      }),
+    const schema = yup.object({
+      nome: yup.string().required("O nome é obrigatório"),
+      email: yup
+        .string()
+        .email("Digite um email válido")
+        .required("O email é obrigatório")
+        .test(
+          "email-disponivel",
+          "Este email já está cadastrado",
+          async (value) => {
+            if (!value) return false;
+            try {
+              const response = await axios.post("/api/verificarEmail", {
+                email: value,
+              });
+              // Se já existe, retorna falso
+              return !response.data.existe;
+            } catch (error) {
+              console.error("Erro ao validar email:", error);
+              return false;
+            }
+          }
+        ),
+      senha: yup
+        .string()
+        .min(6, "A senha deve ter no mínimo 6 caracteres")
+        .required("A senha é obrigatória"),
+      confirmarSenha: yup
+        .string()
+        .oneOf([yup.ref("senha")], "As senhas não coincidem")
+        .required("Confirme sua senha"),
     });
+
+    const { handleSubmit, defineField } = useForm({ validationSchema: schema });
 
     const [nome] = defineField("nome");
     const [email] = defineField("email");
@@ -77,6 +107,7 @@ export default {
     const cadastrar = handleSubmit(async (values) => {
       try {
         await axios.post("/api/usuarios/cadastrar", values);
+        alert("Usuário cadastrado com sucesso!");
       } catch (error) {
         console.error(error);
       }

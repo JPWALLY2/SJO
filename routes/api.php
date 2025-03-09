@@ -20,6 +20,8 @@ use App\Http\Controllers\UsuarioController;
 // });
 
 Route::POST('usuarios/cadastrar', [UsuarioController::class, 'store']);
+Route::POST('/verificarEmail', [UserController::class, 'verificarEmail']);
+
 
 // rotas admin
 // Route::group(['prefix' => 'admin'], function () {

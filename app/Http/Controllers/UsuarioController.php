@@ -29,4 +29,10 @@ class UsuarioController extends Controller
             return response()->json(['tipo' => 'erro', 'msg' => 'Erro ao cadastrar o usuário!']);
         }
     }
+
+    public function verificarEmail(Request $request)
+{
+    $existe = User::where('email', $request->email)->exists();
+    return response()->json(['existe' => $existe]);
+}
 }
