@@ -127,8 +127,14 @@ span.erros {
     margin-bottom: 15px;
 }
 
+#topo .topo-conteudo {
+    width: 80%;
+    display: flex;
+    height: 100%;
+}
+
 #topo .area-item {
-    width: 15%;
+    width: 25%;
     color: var(--cinza);
     border-right: 1px solid var(--cinza);
     border-left: 1px solid var(--cinza);
@@ -138,29 +144,14 @@ span.erros {
     height: 100%;
     position: relative;
     justify-content: space-evenly;
-    padding-left: 0;
-}
-
-#topo .area-item .usuario-icone img {
-    width: 60px;
+    padding: 0 40px;
 }
 
 #topo .area-item .usuario-texto {
-    display: flex;
-    align-items: baseline;
     position: relative;
-    margin-left: -10px;
 }
 
-#topo .area-item h2 {
-    font-size: var(--tamanho-secundario);
-    font-weight: 400;
-    padding-top: 5px;
-    margin-left: -30px;
-}
-
-#topo .area-sair,
-#topo .area-item {
+#topo .some-mobile {
     cursor: pointer;
 }
 
@@ -184,7 +175,6 @@ span.erros {
 }
 
 #topo .drop-topo li {
-    /* height: 40px; */
     height: 100%;
     display: flex;
     justify-content: center;
@@ -202,50 +192,20 @@ span.erros {
     background-color: var(--verde-primario);
 }
 
-#topo .area-item .conf-icone {
-    text-align: center;
-    width: 25%;
-}
-
-#topo .area-item .conf-texto {
-    width: 75%;
-    text-align: center;
-}
-
-#topo .area-item .conf-icone img {
-    width: 50%;
-}
-
 #topo .area-sair {
     display: flex;
     align-items: center;
     height: 100%;
-    margin-left: 20%;
-    width: 15%;
-    justify-content: end;
-}
-
-#topo .area-sair .sair-texto {
-    width: 20%;
-    text-align: center;
+    margin-left: 25%;
+    width: 25%;
+    justify-content: center;
 }
 
 #topo .area-sair h2 {
     font-size: var(--tamanho-secundario);
     color: var(--cinza);
     margin-bottom: 0.1rem;
-}
-
-#topo .area-sair .sair-icone {
-    width: 20%;
-    display: flex;
-    justify-content: center;
-    align-items: baseline;
-    text-align: center;
-}
-
-#topo .area-sair .sair-icone img {
-    width: 70%;
+    padding-right: 5px;
 }
 
 #topo .todasConf,
@@ -256,12 +216,12 @@ span.erros {
 
 @media(max-width: 1440px) {
     #topo .area-item {
-        width: 20%;
+        width: 30%;
     }
 
     #topo .area-sair {
-        margin-left: 15%;
-        width: 15%;
+        margin-left: 10%;
+        width: 30%;
     }
 
     #topo .area-sair .sair-texto {
@@ -272,10 +232,12 @@ span.erros {
 @media(max-width: 1024px) {
 
 
+    #topo .topo-conteudo {
+        display: none;
+    }
+
     #topo .drop-topo {
-        height: 0;
-        position: relative;
-        bottom: 0;
+        display: none;
     }
 
     #topo .drop-topo li {
@@ -306,19 +268,20 @@ span.erros {
         height: auto;
     }
 
-
+/* 
     #topo .todasConf .dropdownConf .drop-topo a {
         display: none;
-    }
+    } */
 
     #topo .todasConf .dropdownConf .drop-topo.apareceDrop {
         height: 100%;
-        position: relative;
-    }
-
-    #topo .todasConf .dropdownConf .drop-topo.apareceDrop a {
+        /* position: relative; */
         display: block;
     }
+
+    /* #topo .todasConf .dropdownConf .drop-topo.apareceDrop a {
+        display: block;
+    } */
 
     #topo .drop-topo li:hover {
         background-color: transparent;
@@ -340,6 +303,7 @@ span.erros {
     #topo .todasConf .dropdownConf .usuario-texto.conf-user .div {
         display: flex;
         position: relative;
+        width: 100%;
     }
 
     #topo .todasConf .dropdownConf .usuario-texto h2 {
@@ -367,12 +331,12 @@ span.erros {
         align-items: center;
         justify-content: space-between;
         color: #FFF;
-        height: 50px;
+        /* height: 50px; */
         padding: 1em;
     }
 
     .menu-button-container {
-        display: none;
+        /* display: none; */
         height: 100%;
         width: 30px;
         cursor: pointer;
@@ -565,7 +529,7 @@ span.erros {
     margin-bottom: 20px;
 }
 
-#cadastrar .linha .coluna{
+#cadastrar .linha .coluna {
     width: 50%;
     display: flex;
     flex-direction: column;
@@ -613,12 +577,13 @@ span.erros {
     #cadastrar button {
         width: 100%;
     }
-    #cadastrar .linha{
+
+    #cadastrar .linha {
         display: flex;
         flex-direction: column;
     }
 
-    #cadastrar .linha .coluna{
+    #cadastrar .linha .coluna {
         width: 100%;
         padding: 0;
     }
