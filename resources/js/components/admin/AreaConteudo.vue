@@ -1,6 +1,8 @@
 <template>
   <div id="areaConteudo">
-    <img src="../../../img/img_fundo.png" alt="Fundo JEPAP" />
+    <img class="desktop" src="../../../img/img_fundo.png" alt="Fundo JEPAP" />
+    <!-- <img class="mobile" src="../../../img/img_fundo1.png" alt="Fundo JEPAP" />
+    <img class="mobile" src="../../../img/img_fundo2.png" alt="Fundo JEPAP" /> -->
     <div class="vidro"></div>
 
     <keep-alive>
